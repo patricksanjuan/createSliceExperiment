@@ -3,6 +3,8 @@ import logger from 'redux-logger'
 
 export const clickOk = createAction('util/clickOk');
 
+// Naming conventions for asyncThunks are fairly open, 
+// we don't even have to follow the / convention here if we don't want to
 export const fetchPokemon = createAsyncThunk("fetchPokemonDetail", async input => {
   return await fetch(`https://pokeapi.co/api/v2/pokemon/${input}/`)
     .then((result) => {
@@ -19,8 +21,10 @@ export const fetchAllPokemon = createAsyncThunk("fetchAllPokemon", async () => {
   return data;
 });
 
+// Maybe we should follow the convention of naming the var the same as the slice name?
 const pokemon = createSlice({
   name: "pokemon",
+  // If this section is too verbose, we can create it outside of the slice and declare it afterward
   initialState: { 
     pokemon: [],
     detailLoading: false,
@@ -47,12 +51,14 @@ const pokemon = createSlice({
       .addCase(fetchAllPokemon.fulfilled, (state, action) => {
         state.pokemon = action.payload.results;
       })
+      // An example of an "outside" action being involved in this reducer (could be from another reducer)
       .addCase(clickOk, () => {
         console.log("it does nothing!")
       })
   }
 })
 
+// This will be in the store index.js and exported to configure store in the root
 const reducer = combineReducers({
   pokemon: pokemon.reducer
 })
@@ -63,6 +69,7 @@ const store = configureStore({
   devTools: true,
 });
 
+// We can follow this pattern to expose all native reducers from a slice to the app
 export const { setPokemonName } = pokemon.actions;
 
 export default store;
