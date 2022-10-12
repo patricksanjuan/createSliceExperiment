@@ -51,7 +51,7 @@ const pokemon = createSlice({
       .addCase(fetchAllPokemon.fulfilled, (state, action) => {
         state.pokemon = action.payload.results;
       })
-      // An example of an "outside" action being involved in this reducer (could be from another reducer)
+      // An example of an "outside" action triggering an action in this reducer (could be from another reducer)
       .addCase(clickOk, () => {
         console.log("it does nothing!")
       })
