@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from 'react';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
+import { fetchPokemon, fetchAllPokemon, clickOk } from './store';
 
-function App() {
+function App({ 
+  fetchPokemon, 
+  fetchAllPokemon, 
+  detailLoading,
+  pokemonName, 
+  allPokemon,
+  clickOk
+}) {
+  useEffect(() => {
+    fetchAllPokemon();
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {
+        !detailLoading && <div>
+          <div>details</div>
+          <div>{pokemonName}</div>
+          <button onClick={() => clickOk()}>Click!</button>
+        </div>
+      }
+      <div>
+        <ul>
+          {allPokemon.map((p) =>
+            (<li key={p.name} onClick={() => {
+              fetchPokemon(p.name);
+            }}>{p.name}</li>)
+          )}
+        </ul>
+      </div>
     </div>
   );
 }
 
-export default App;
+function mapStateToProps({ pokemon }) {
+  return {
+    detailLoading: pokemon.detailLoading,
+    pokemonName: pokemon.detailName,
+    allPokemon: pokemon.pokemon
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ fetchPokemon, fetchAllPokemon, clickOk }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
