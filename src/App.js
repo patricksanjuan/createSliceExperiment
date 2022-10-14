@@ -17,8 +17,8 @@ function App({
   }, []);
 
   // Add callbacks to improve performance
-  const clickOkCallback = useCallback(() => {
-    return () => { clickOk(); };
+  const clickOkCallback = useCallback(() => { 
+    clickOk()
   },[clickOk]);
   
   const fetchPokemonCallback = useCallback((name) => {
@@ -31,7 +31,7 @@ function App({
         !detailLoading && <div>
           <div>details</div>
           <div>{pokemonName}</div>
-          <button onClick={clickOkCallback()}>Click!</button>
+          <button onClick={clickOkCallback}>Click!</button>
         </div>
       }
       <div>
