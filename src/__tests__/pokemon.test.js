@@ -8,6 +8,7 @@ import { getAllPokemonResponse, getPokemonDetailsResponse } from '../mocks/pokem
 const { reducer } = pokemonSlice;
 
 describe('pokemon create slice' , () => {
+  const fetchPokemonName = "pikachu";
   const mockStoretore = configureStore([thunk]);
   const mockStore = mockStoretore(store);
 
@@ -15,7 +16,7 @@ describe('pokemon create slice' , () => {
     rest.get(`https://pokeapi.co/api/v2/pokemon/`, (req, res, ctx) => {
       return res(ctx.json(getAllPokemonResponse))
     }),
-    rest.get(`https://pokeapi.co/api/v2/pokemon/pikachu`, (req, res, ctx) => {
+    rest.get(`https://pokeapi.co/api/v2/pokemon/${fetchPokemonName}`, (req, res, ctx) => {
       return res(ctx.json(getPokemonDetailsResponse))
     }),
   ]
@@ -53,7 +54,7 @@ describe('pokemon create slice' , () => {
   })
 
   it('fetch one Pokemon ', async() => {
-    const result = await mockStore.dispatch(fetchPokemon("pikachu"));
+    const result = await mockStore.dispatch(fetchPokemon(fetchPokemonName));
     const { payload } = result;
     const action = { type: "fetchPokemonDetail/fulfilled", payload };
     const state = reducer(initialState, action);
