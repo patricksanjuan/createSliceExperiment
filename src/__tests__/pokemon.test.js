@@ -7,6 +7,11 @@ import { getAllPokemonResponse, getPokemonDetailsResponse } from '../mocks/pokem
 
 const { reducer } = pokemonSlice;
 
+// Following recommendation of redux docs for testing async api call in thunk
+// https://redux.js.org/usage/writing-tests#action-creators--thunks
+// Following this patern for testing the reducer action
+// https://stackoverflow.com/questions/62518929/how-to-write-tests-jest-enzyme-for-extrareducers-of-createslice
+
 describe('pokemon create slice' , () => {
   const fetchPokemonName = "pikachu";
   const configuredStore = configureStore([thunk]);
